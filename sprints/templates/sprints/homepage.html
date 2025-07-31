@@ -1,0 +1,36 @@
+{% extends 'sprints/base.html' %}
+{% block title %}Dashboard | AgileIt{% endblock %}
+
+
+{% block content %}
+<section class="dashboard-grid">
+    <h2>Control Panel</h2>
+    <div class="grid-container">
+        <div class="card">
+            <h3>Sprints</h3>
+            <p>Manage active sprints</p>
+            <a href="{% url 'view_sprints' %}" class="btn">View Sprints</a>
+        </div>
+
+        <div class="card">
+            <h3>Backlog</h3>
+            <p>Use MoSCoW prioritization and plan ahead.</p>
+            <a href="{% url 'view_backlog' %}" class="btn">View Backlog</a>
+        </div>
+
+        <div class="card">
+            <h3>Reports</h3>
+            <p>Track progress, velocity, and completion metrics.</p>
+            <a href="{% url 'view_reports' %}" class="btn">View Reports</a>
+        </div>
+
+        <div class="card">
+            <h3>Team</h3>
+            <p>Assign work and manage team profiles.</p>
+            <a href="{% url 'manage_team' %}" class="btn">Manage Team</a>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
