@@ -4,6 +4,12 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from django.urls import reverse_lazy
 from .models import Sprint
 
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Epic
+
+
+
 # Home view for the AgileIT application
 
 class HomeView(TemplateView):
@@ -41,3 +47,35 @@ class SprintDeleteView(DeleteView):
     model = Sprint
     template_name = 'sprints/sprint_confirm_delete.html'
     success_url = reverse_lazy('sprints:sprint-list')
+
+# 🗂 List all Epics
+class EpicListView(ListView):
+    model = Epic
+    template_name = 'sprints/epic_list.html'
+    context_object_name = 'epics'
+
+# ➕ Create a new Epic
+class EpicCreateView(CreateView):
+    model = Epic
+    fields = ['title', 'description', 'sprint']
+    template_name = 'sprints/epic_form.html'
+    success_url = reverse_lazy('sprints:epic-list')
+
+# 🔍 View Epic details
+class EpicDetailView(DetailView):
+    model = Epic
+    template_name = 'sprints/epic_detail.html'
+    context_object_name = 'epic'
+
+# ✏️ Edit an existing Epic
+class EpicUpdateView(UpdateView):
+    model = Epic
+    fields = ['title', 'description', 'sprint']
+    template_name = 'sprints/epic_form.html'
+    success_url = reverse_lazy('sprints:epic-list')
+
+# ❌ Delete an Epic
+class EpicDeleteView(DeleteView):
+    model = Epic
+    template_name = 'sprints/epic_confirm_delete.html'
+    success_url = reverse_lazy('sprints:epic-list')
