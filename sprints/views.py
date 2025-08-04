@@ -79,3 +79,35 @@ class EpicDeleteView(DeleteView):
     model = Epic
     template_name = 'sprints/epic_confirm_delete.html'
     success_url = reverse_lazy('sprints:epic-list')
+
+# 🗂 List all Stories
+class StoryListView(ListView):
+    model = Story
+    template_name = 'sprints/story_list.html'
+    context_object_name = 'stories'
+
+# ➕ Create a new Story
+class StoryCreateView(CreateView):
+    model = Story
+    fields = ['title', 'description', 'epic']
+    template_name = 'sprints/story_form.html'
+    success_url = reverse_lazy('sprints:story-list')
+
+# 🔍 View Story details
+class StoryDetailView(DetailView):
+    model = Story
+    template_name = 'sprints/story_detail.html'
+    context_object_name = 'story'
+
+# ✏️ Edit an existing Story
+class StoryUpdateView(UpdateView):
+    model = Story
+    fields = ['title', 'description', 'epic']
+    template_name = 'sprints/story_form.html'
+    success_url = reverse_lazy('sprints:story-list')
+
+# ❌ Delete a Story
+class StoryDeleteView(DeleteView):
+    model = Story
+    template_name = 'sprints/story_confirm_delete.html'
+    success_url = reverse_lazy('sprints:story-list')
