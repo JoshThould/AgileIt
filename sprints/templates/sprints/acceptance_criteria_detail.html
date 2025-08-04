@@ -1,0 +1,12 @@
+# View Acceptance Criteria Details 
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ criterion.title }}</h2>
+  <p><strong>Description:</strong> {{ criterion.description }}</p>
+  <p><strong>Status:</strong> {{ criterion.status }}</p>
+  <p><strong>Story:</strong> {{ criterion.story.title }}</p>
+  <a href="{% url 'sprints:acceptance-criteria-edit' criterion.pk %}" class="btn btn-warning">Edit</a>
+  <a href="{% url 'sprints:acceptance-criteria-delete' criterion.pk %}" class="btn btn-danger">Delete</a>
+  <a href="{% url 'sprints:acceptance-criteria-list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
