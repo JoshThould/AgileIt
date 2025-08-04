@@ -74,3 +74,32 @@ class Task(models.Model):
 
     def __str__(self):
         return f"{self.title} [{self.status}] in Story '{self.story.title}'"
+    
+# Update Status Logic:
+# Automatically updates Story status based on completion of related Tasks and Acceptance Criteria.
+# Sets status to "Done" only if all Tasks are marked complete and all Criteria are met.
+
+class Story(models.Model):
+    STATUS_CHOICES = [
+        ("To Do", "To Do"),
+        ("In Progress", "In Progress"),
+        ("Done", "Done"),
+    ]
+    title = models.CharField(max_length=200)
+    sprint = models.ForeignKey(Sprint, on_delete=models.CASCADE, related_name="stories")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="To Do")
+    # other fields...
+
+    def update_status(self):
+        all_tasks_done = self.tasks.filter(status__in=["To Do", "In Progress"]).count() == 0
+        all_criteria_met = self.criteria.filter(is_met=False).count() == 0
+
+        if all_tasks_done and all_criteria_met:
+            self.status = "Done"
+        else:
+            # Optional: downgrade status if needed
+            if self.tasks.filter(status="In Progress").exists():
+                self.status = "In Progress"
+            else:
+                self.status = "To Do"
+        self.save()
