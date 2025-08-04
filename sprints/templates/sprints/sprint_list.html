@@ -1,0 +1,19 @@
+# List All Sprints Template
+
+{% load static %}
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>All Sprints</h2>
+  <a href="{% url 'sprints:sprint-create' %}" class="btn btn-primary">Create New Sprint</a>
+  <ul>
+    {% for sprint in sprints %}
+      <li>
+        <a href="{% url 'sprints:sprint-detail' sprint.pk %}">{{ sprint.title }}</a>
+        ({{ sprint.start_date }} → {{ sprint.end_date }})
+      </li>
+    {% empty %}
+      <li>No sprints available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

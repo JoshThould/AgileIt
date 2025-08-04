@@ -1,0 +1,12 @@
+# Create/Update Sprint
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ view.object.pk|yesno:"Edit Sprint,Create Sprint" }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'sprints:sprint-list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
