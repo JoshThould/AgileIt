@@ -1,0 +1,17 @@
+# List All Stories Template
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>All Stories</h2>
+  <a href="{% url 'sprints:story-create' %}" class="btn btn-primary">Create New Story</a>
+  <ul>
+    {% for story in stories %}
+      <li>
+        <a href="{% url 'sprints:story-detail' story.pk %}">{{ story.title }}</a>
+        (Epic: {{ story.epic.title }})
+      </li>
+    {% empty %}
+      <li>No stories available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
