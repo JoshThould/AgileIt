@@ -1,0 +1,14 @@
+# Confirm Delete Epic Template
+
+{% load static %}
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>Delete Epic</h2>
+  <p>Are you sure you want to delete "{{ epic.title }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+    <a href="{% url 'sprints:epic-detail' epic.pk %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,13 @@
+# View Epic Details Template
+
+{% load static %}
+
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ epic.title }}</h2>
+  <p><strong>Description:</strong> {{ epic.description }}</p>
+  <p><strong>Sprint:</strong> {{ epic.sprint.title }}</p>
+  <a href="{% url 'sprints:epic-edit' epic.pk %}" class="btn btn-warning">Edit</a>
+  <a href="{% url 'sprints:epic-delete' epic.pk %}" class="btn btn-danger">Delete</a>
+  <a href="{% url 'sprints:epic-list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}
