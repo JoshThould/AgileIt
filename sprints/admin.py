@@ -3,11 +3,33 @@ from .models import Sprint, Epic, Story, Task, AcceptanceCriteria
 
 # Register your models here.
 
-admin.site.register(Sprint)
-admin.site.register(Epic)
-admin.site.register(Story)
-admin.site.register(Task)
-admin.site.register(AcceptanceCriteria)
+@admin.register(Sprint)
+class SprintAdmin(admin.ModelAdmin):
+    list_display = ("title", "start_date", "end_date")
+    search_fields = ("title",)
+    ordering = ("start_date",)
+
+
+@admin.register(Epic)
+class EpicAdmin(admin.ModelAdmin):
+    list_display = ("title", "sprint")
+    search_fields = ("title",)
+    ordering = ("sprint",)
+
+@admin.register(AcceptanceCriteria)
+class CriteriaAdmin(admin.ModelAdmin):
+    list_display = ("title", "story", "status")
+    list_filter = ("status",)
+    search_fields = ("title",)
+    ordering = ("story")
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ("title", "story", "status")
+    list_filter = ("status",)
+    search_fields = ("title",)
+    ordering = ("story",)
+
 
 # Inline for Task
 class TaskInline(admin.TabularInline):
