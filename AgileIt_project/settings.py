@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sprints',  # Custom app for managing sprints
+    'django.contrib.sites', #AllAuth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount'
+
 ]
 
 MIDDLEWARE = [
