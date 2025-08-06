@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware', # AllAuth middleware
 ]
 
 ROOT_URLCONF = 'AgileIt_project.urls'
@@ -110,6 +111,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# AllAuth settings
+
+LOGIN_REDIRECT_URL = '/homepage/'  # Redirects users after successful login
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirects users after logout
+ACCOUNT_LOGIN_METHODS = {'username', 'email'}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Allows login without email confirmation
 
 
 # Internationalization

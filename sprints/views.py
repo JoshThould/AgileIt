@@ -8,12 +8,13 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Sprint, Epic, Story, AcceptanceCriteria, Task
 
-# Home view for the AgileIT application
+# Dashboard view for the AgileIT application
 
-class HomeView(TemplateView):
-    template_name = "sprints/homepage.html"
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'sprints/dashboard.html'
 
 # List all sprints
 

@@ -19,7 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('', include('sprints.urls')),  # Homepage and sprint views
-    # path('epics/', include('epics.urls')),     # Optional future expansion
-    # path('users/', include('users.urls')),     # For auth/profile routes
+    path('accounts/', include('allauth.urls')),
+    path('', include('sprints.urls')),  # All sprints-related views, including dashboard
 ]

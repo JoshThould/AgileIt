@@ -2,12 +2,12 @@ app_name = "sprints"
 
 
 from django.urls import path
-from .views import HomeView
+from .views import DashboardView
 from . import views
 
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="homepage"),
+    path('', DashboardView.as_view(), name='dashboard'),  # Root dashboard view
     path('sprints/', views.SprintListView.as_view(), name='sprint-list'),
     path('sprints/create/', views.SprintCreateView.as_view(), name='sprint-create'),
     path('epics/', views.EpicListView.as_view(), name='epic-list'),
