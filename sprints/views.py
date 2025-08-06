@@ -1,14 +1,14 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Sprint
-
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from .models import Epic
-
-
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    CreateView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
+from .models import Sprint, Epic, Story, AcceptanceCriteria, Task
 
 # Home view for the AgileIT application
 

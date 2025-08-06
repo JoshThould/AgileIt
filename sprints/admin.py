@@ -21,7 +21,7 @@ class CriteriaAdmin(admin.ModelAdmin):
     list_display = ("title", "story", "status")
     list_filter = ("status",)
     search_fields = ("title",)
-    ordering = ("story")
+    ordering = ("story",)
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
