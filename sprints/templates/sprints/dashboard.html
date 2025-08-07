@@ -1,45 +1,64 @@
 {% extends 'sprints/base.html' %}
+
 {% block title %}Dashboard | AgileIt{% endblock %}
 
 {% block content %}
 <div class="dashboard-container">
-  {% if user.is_authenticated %}
-    <h2>Welcome back, {{ user.username }} 👋</h2>
-    <p>Ready to tackle your sprints?</p>
-  {% else %}
-    <h2>Welcome to AgileIt</h2>
-    <p><a href="{% url 'account_login' %}">Login</a> or <a href="{% url 'account_signup' %}">Sign up</a></p>
-  {% endif %}
+  <div class="w-100 d-flex justify-content-center align-items-center flex-column text-center py-5">
+    {% if user.is_authenticated %}
+      <h2>Welcome back, {{ user.username }} 👋</h2>
+      <p>Ready to tackle your sprints?</p>
+    {% else %}
+      <h2>Welcome to AgileIt</h2>
+      <p><a href="{% url 'account_login' %}">Login</a> or <a href="{% url 'account_signup' %}">Sign up</a></p>
+    {% endif %}
+  </div>
 
   <section class="dashboard-grid">
     <h2><i class="fas fa-sliders-h"></i> Control Panel</h2>
-    <div class="grid-container">
-      <div class="card">
-        <i class="fas fa-flag-checkered card-icon"></i>
-        <h3>Sprints</h3>
-        <p>Manage active sprints</p>
-        <a href="{% url 'view_sprints' %}" class="btn">View Sprints</a>
-      </div>
 
-      <div class="card">
-        <i class="fas fa-stream card-icon"></i>
-        <h3>Backlog</h3>
-        <p>Use MoSCoW prioritization and plan ahead.</p>
-        <a href="{% url 'view_backlog' %}" class="btn">View Backlog</a>
-      </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <!-- Cards go here -->
+        <!-- Sprints -->
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <i class="fas fa-flag-checkered card-icon"></i>
+            <h3>Sprints</h3>
+            <p>Manage active sprints</p>
+            <a href="{% url 'sprints:sprint-list' %}" class="btn">View Sprints</a>
+          </div>
+        </div>
 
-      <div class="card">
-        <i class="fas fa-chart-bar card-icon"></i>
-        <h3>Reports</h3>
-        <p>Track progress, velocity, and completion metrics.</p>
-        <a href="{% url 'view_reports' %}" class="btn">View Reports</a>
-      </div>
+        <!-- Backlog -->
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <i class="fas fa-stream card-icon"></i>
+            <h3>Backlog</h3>
+            <p>Use MoSCoW prioritization and plan ahead.</p>
+            <a href="{% url 'sprints:story-list' %}" class="btn">View Backlog</a>
+          </div>
+        </div>
 
-      <div class="card">
-        <i class="fas fa-users card-icon"></i>
-        <h3>Team</h3>
-        <p>Assign work and manage team profiles.</p>
-        <a href="{% url 'manage_team' %}" class="btn">Manage Team</a>
+        <!-- Reports -->
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <i class="fas fa-chart-bar card-icon"></i>
+            <h3>Reports</h3>
+            <p>Track progress, velocity, and completion metrics.</p>
+            <a href="#" class="btn disabled" title="Coming Soon">View Reports</a>
+          </div>
+        </div>
+
+        <!-- Team -->
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <i class="fas fa-users card-icon"></i>
+            <h3>Team</h3>
+            <p>Assign work and manage team profiles.</p>
+            <a href="#" class="btn disabled" title="Coming Soon">Manage Team</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
