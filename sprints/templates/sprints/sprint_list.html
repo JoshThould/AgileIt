@@ -1,8 +1,7 @@
-# List All Sprints Template
+{% extends "base.html" %}
 
 {% load static %}
 
-{% extends "base.html" %}
 {% block content %}
   <h2>All Sprints</h2>
   <a href="{% url 'sprints:sprint-create' %}" class="btn btn-primary">Create New Sprint</a>
@@ -17,3 +16,5 @@
     {% endfor %}
   </ul>
 {% endblock %}
+
+# List All Sprints Template
