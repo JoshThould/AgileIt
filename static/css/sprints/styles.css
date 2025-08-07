@@ -77,6 +77,16 @@ header .container {
   color: #e63946; /* Your red accent */
 }
 
+.it::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 /* Base layout */
 body {
     background-color: #121212;
