@@ -1,6 +1,5 @@
 app_name = "sprints"
 
-
 from django.urls import path
 from .views import DashboardView
 from . import views
@@ -21,7 +20,7 @@ urlpatterns = [
     path('sprints/<int:pk>/', views.SprintDetailView.as_view(), name='sprint-detail'),
     path('sprints/<int:pk>/edit/', views.SprintUpdateView.as_view(), name='sprint-edit'),
     path('sprints/<int:pk>/delete/', views.SprintDeleteView.as_view(), name='sprint-delete'),
-    path ('epics/<int:pk>/', views.EpicDetailView.as_view(), name='epic-detail'),
+    path('epics/<int:pk>/', views.EpicDetailView.as_view(), name='epic-detail'),
     path('epics/<int:pk>/edit/', views.EpicUpdateView.as_view(), name='epic-edit'),
     path('epics/<int:pk>/delete/', views.EpicDeleteView.as_view(), name='epic-delete'),
     path('stories/<int:pk>/', views.StoryDetailView.as_view(), name='story-detail'),
