@@ -2,30 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AgileIt | Plan smarter, sprint faster{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sprints/styles.css' %}">
     <script src="https://kit.fontawesome.com/70d9507ffc.js" crossorigin="anonymous"></script>
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100 row">
 <header>
+ <div class="container">
     <div class="branding">
-        <h1>AgileIt</h1>
+      <i class="fas fa-bolt"></i>
+
+    <h1>
+        <span class="agile">Agile</span><span class="it">It</span>
+    </h1>
+
+
+</div>
+
+    <div class="user-actions">
+      <div class="user-badge">{{ user.username|slice:":1"|upper }}</div>
+      <span>{{ user.username }}</span>
+      <a href="{% url 'account_logout' %}" class="logout">Logout</a>
     </div>
-    <nav aria-label="Main navigation">
-        <a href="{% url 'homepage' %}">Home</a>
-        <a href="#">Board</a>
-        <a href="#">Backlog</a>
-    </nav>
+  </div>
 </header>
 
-
-    <main>
+<main class="flex-grow-1 container py-4 justify-content-center">
         {% block content %}{% endblock %}
-    </main>
-    <footer>
-        <p>Copyright 2025 AgileIt. All rights reserved.</p>
+</main>
+
+    <footer id="contact" class="mt-auto bg-dark text-white text-center py-3">
+        <div class="container section">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h2 class="display-6">Copyright 2025 AgileIt. All rights reserved.</h2>
+                     <small>&copy; 2025 AgileIt. All rights reserved.</small>
+
+                </div>
+                <div class="social-links my-4 d-flex justify-content-center">
+                    <a href="https://www.instagram.com" target="_blank"
+                        aria-label="Visit our Instagram page (opens in a new tab)" rel="noopener"><i
+                            class="fa-brands fa-instagram fa-2x"></i></a>
+                    <a href="https://www.facebook.com" target="_blank"
+                        aria-label="Visit our Facebook page (opens in a new tab)" rel="noopener"><i
+                            class="fa-brands fa-square-facebook fa-2x"></i></a>
+                    <a href="https://www.x.com" target="_blank" aria-label="Visit our X feed (opens in a new tab)"
+                        rel="noopener"><i class="fa-brands fa-x-twitter fa-2x"></i></a>
+                    <a href="https://linkedin.com/in/josh-thould/" target="_blank"
+                        aria-label="Visit Josh's LinkedIn (opens in a new tab)" 
+                        rel="noopener"><i class="fa-brands fa-linkedin fa-2x"></i></a>
+                </div>
+            </div>
+        </div>
     </footer>
     {% block scripts %}{% endblock %}
 
