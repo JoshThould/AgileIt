@@ -1,6 +1,6 @@
 # Create/Update Story Template
 
-{% extends "base.html" %}
+{% extends "sprints/base.html" %}
 {% block content %}
   <h2>{{ view.object.pk|yesno:"Edit Story,Create Story" }}</h2>
   <form method="post">

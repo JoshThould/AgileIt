@@ -1,6 +1,6 @@
 # Create/Update Sprint
 
-{% extends "base.html" %}
+{% extends "sprints/base.html" %}
 {% block content %}
   <h2>{{ view.object.pk|yesno:"Edit Sprint,Create Sprint" }}</h2>
   <form method="post">
