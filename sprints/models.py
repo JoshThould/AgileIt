@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Status Choices
 STATUS_CHOICES = [
@@ -10,6 +11,7 @@ STATUS_CHOICES = [
 
 # Sprint Model
 class Sprint(models.Model):
+    """A time-boxed period for completing a set of stories."""
     title = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
@@ -18,10 +20,13 @@ class Sprint(models.Model):
     def __str__(self):
         return f"Sprint: {self.title} ({self.start_date} to {self.end_date})"
 
-# Story Model
-from django.contrib.auth.models import User
+    def get_absolute_url(self):
+        return reverse("sprints:sprint-detail", kwargs={"pk": self.pk})
 
+
+# Story Model
 class Story(models.Model):
+    """A user-owned task or feature within a sprint."""
     title = models.CharField(max_length=200)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="To Do")
@@ -32,3 +37,6 @@ class Story(models.Model):
 
     def __str__(self):
         return f"{self.title} [{self.status}]"
+
+    def get_absolute_url(self):
+        return reverse("stories:story-detail", kwargs={"pk": self.pk})

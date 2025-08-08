@@ -53,16 +53,13 @@ class SprintListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Sprint.objects.filter(user=self.request.user)
 
-    
 class SprintCreateView(LoginRequiredMixin, CreateView):
     model = Sprint
-    fields = ['title', 'start_date', 'end_date']
+    fields = ['title', 'start_date', 'end_date']  # exclude 'user' from the form
     template_name = 'sprints/sprint_form.html'
-    success_url = reverse_lazy('sprints:sprint-list')
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
-        messages.success(self.request, "Sprint created successfully.")
+        form.instance.user = self.request.user  # set the user before saving
         return super().form_valid(form)
 
 
