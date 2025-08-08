@@ -194,6 +194,34 @@ footer h2 {
     color: darkred; /* Change color on hover */
 }
 
+/* Sprint List Styles */
+/* Sprint List Page Specific */
+.sprint-list-page .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-top: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.sprint-list-page .btn:hover {
+    background-color: #2980b9;
+}
+
+.sprint-list-page .btn-primary {
+    background-color: #2ecc71;
+}
+
+.sprint-list-page .btn-primary:hover {
+    background-color: #27ae60;
+}
+
+
 /* Responsive styles */
 
 @media (max-width: 600px) {
