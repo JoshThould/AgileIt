@@ -11,7 +11,7 @@ class SprintAdmin(admin.ModelAdmin):
 
 @admin.register(Story)
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ("title", "epic", "status", "updated_on")
-    list_filter = ("status", "epic__sprint")
+    list_display = ("title", "status", "sprint", "updated_on")
+    list_filter = ("status", "sprint")
     search_fields = ("title", "description")
     readonly_fields = ("created_on", "updated_on")
