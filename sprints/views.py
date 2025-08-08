@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -8,171 +9,108 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Sprint, Epic, Story, AcceptanceCriteria, Task
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import Sprint, Story, 
 
-# Dashboard view for the AgileIT application
-
+# Dashboard view with Kanban functionality
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'sprints/dashboard.html'
 
-# List all sprints
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stories_todo'] = Story.objects.filter(status='To Do', owner=self.request.user)
+        context['stories_in_progress'] = Story.objects.filter(status='In Progress', owner=self.request.user)
+        context['stories_done'] = Story.objects.filter(status='Done', owner=self.request.user)
+        return context
+    
+# Kanban board view
+class KanbanBoardView(LoginRequiredMixin, TemplateView):
+    template_name = 'sprints/kanban.html'
 
-class SprintListView(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stories_by_status'] = {
+            'To Do': Story.objects.filter(status='To Do', owner=self.request.user),
+            'In Progress': Story.objects.filter(status='In Progress', owner=self.request.user),
+            'Done': Story.objects.filter(status='Done', owner=self.request.user),
+        }
+        return context
+
+# Sprints Views
+# List all sprints
+class SprintListView(LoginRequiredMixin, ListView):
     model = Sprint
     template_name = 'sprints/sprint_list.html'
     context_object_name = 'sprints'
 
 # Create a new sprint
-class SprintCreateView(CreateView):
+class SprintCreateView(LoginRequiredMixin, CreateView):
     model = Sprint
     fields = ['title', 'start_date', 'end_date']
     template_name = 'sprints/sprint_form.html'
     success_url = reverse_lazy('sprints:sprint-list')
 
 # View sprint details
-class SprintDetailView(DetailView):
+class SprintDetailView(LoginRequiredMixin, DetailView):
     model = Sprint
     template_name = 'sprints/sprint_detail.html'
     context_object_name = 'sprint'
 
 # Edit an existing sprint
-class SprintUpdateView(UpdateView):
+class SprintUpdateView(LoginRequiredMixin, UpdateView):
     model = Sprint
     fields = ['title', 'start_date', 'end_date']
     template_name = 'sprints/sprint_form.html'
     success_url = reverse_lazy('sprints:sprint-list')
 
 # Delete a sprint
-class SprintDeleteView(DeleteView):
+class SprintDeleteView(LoginRequiredMixin, DeleteView):
     model = Sprint
     template_name = 'sprints/sprint_confirm_delete.html'
     success_url = reverse_lazy('sprints:sprint-list')
 
-# List all Epics
-class EpicListView(ListView):
-    model = Epic
-    template_name = 'sprints/epic_list.html'
-    context_object_name = 'epics'
-
-# Create a new Epic
-class EpicCreateView(CreateView):
-    model = Epic
-    fields = ['title', 'description', 'sprint']
-    template_name = 'sprints/epic_form.html'
-    success_url = reverse_lazy('sprints:epic-list')
-
-# View Epic details
-class EpicDetailView(DetailView):
-    model = Epic
-    template_name = 'sprints/epic_detail.html'
-    context_object_name = 'epic'
-
-# Edit an existing Epic
-class EpicUpdateView(UpdateView):
-    model = Epic
-    fields = ['title', 'description', 'sprint']
-    template_name = 'sprints/epic_form.html'
-    success_url = reverse_lazy('sprints:epic-list')
-
-# Delete an Epic
-class EpicDeleteView(DeleteView):
-    model = Epic
-    template_name = 'sprints/epic_confirm_delete.html'
-    success_url = reverse_lazy('sprints:epic-list')
-
+# Story Views
 # List all Stories
-class StoryListView(ListView):
+class StoryListView(LoginRequiredMixin, ListView):
     model = Story
     template_name = 'sprints/story_list.html'
     context_object_name = 'stories'
 
 # Create a new Story
-class StoryCreateView(CreateView):
+class StoryCreateView(LoginRequiredMixin, CreateView):
     model = Story
-    fields = ['title', 'description', 'epic']
+    fields = ['title', 'description', 'status']
     template_name = 'sprints/story_form.html'
     success_url = reverse_lazy('sprints:story-list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 # View Story details
-class StoryDetailView(DetailView):
+class StoryDetailView(LoginRequiredMixin, DetailView):
     model = Story
     template_name = 'sprints/story_detail.html'
     context_object_name = 'story'
 
 # Edit an existing Story
-class StoryUpdateView(UpdateView):
+class StoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Story
-    fields = ['title', 'description', 'epic']
+    fields = ['title', 'description', 'status']
     template_name = 'sprints/story_form.html'
     success_url = reverse_lazy('sprints:story-list')
 
+    def test_func(self):
+        story = self.get_object()
+        return story.owner == self.request.user
+
 # Delete a Story
-class StoryDeleteView(DeleteView):
+class StoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Story
     template_name = 'sprints/story_confirm_delete.html'
     success_url = reverse_lazy('sprints:story-list')
 
-# List all Acceptance Criteria
-class AcceptanceCriteriaListView(ListView):
-    model = AcceptanceCriteria
-    template_name = 'sprints/acceptance_criteria_list.html'
-    context_object_name = 'acceptance_criteria'
+    def test_func(self):
+        story = self.get_object()
+        return story.owner == self.request.user
 
-# Create a new Acceptance Criteria
-class AcceptanceCriteriaCreateView(CreateView):
-    model = AcceptanceCriteria
-    fields = ['title', 'description', 'story']
-    template_name = 'sprints/acceptance_criteria_form.html'
-    success_url = reverse_lazy('sprints:acceptance-criteria-list')
-
-# View Acceptance Criteria details
-class AcceptanceCriteriaDetailView(DetailView):
-    model = AcceptanceCriteria
-    template_name = 'sprints/acceptance_criteria_detail.html'
-    context_object_name = 'acceptance_criteria'
-
-# Edit an existing Acceptance Criteria
-class AcceptanceCriteriaUpdateView(UpdateView):
-    model = AcceptanceCriteria
-    fields = ['title', 'description', 'story']
-    template_name = 'sprints/acceptance_criteria_form.html'
-    success_url = reverse_lazy('sprints:acceptance-criteria-list')
-
-# Delete an Acceptance Criteria
-class AcceptanceCriteriaDeleteView(DeleteView):
-    model = AcceptanceCriteria
-    template_name = 'sprints/acceptance_criteria_confirm_delete.html'
-    success_url = reverse_lazy('sprints:acceptance-criteria-list')
-
-# List all Tasks
-class TaskListView(ListView):
-    model = Task
-    template_name = 'sprints/task_list.html'
-    context_object_name = 'tasks'
-
-# Create a new Task
-class TaskCreateView(CreateView):
-    model = Task
-    fields = ['title', 'description', 'story']
-    template_name = 'sprints/task_form.html'
-    success_url = reverse_lazy('sprints:task-list')
-
-# View Task details
-class TaskDetailView(DetailView):
-    model = Task
-    template_name = 'sprints/task_detail.html'
-    context_object_name = 'task'
-
-# Edit an existing Task
-class TaskUpdateView(UpdateView):
-    model = Task
-    fields = ['title', 'description', 'story']
-    template_name = 'sprints/task_form.html'
-    success_url = reverse_lazy('sprints:task-list')
-
-# Delete a Task
-class TaskDeleteView(DeleteView):
-    model = Task
-    template_name = 'sprints/task_confirm_delete.html'
-    success_url = reverse_lazy('sprints:task-list')
