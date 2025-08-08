@@ -26,7 +26,7 @@ class Story(models.Model):
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="To Do")
     sprint = models.ForeignKey(Sprint, on_delete=models.CASCADE, null=True, blank=True, related_name="stories")
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # 👈 New field
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
