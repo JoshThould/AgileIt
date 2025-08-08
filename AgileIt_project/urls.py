@@ -20,5 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('sprints.urls')),  # All sprints-related views, including dashboard
+    path('sprints/', include('sprints.urls')), 
 ]
