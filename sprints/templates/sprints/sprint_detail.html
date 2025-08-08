@@ -1,8 +1,7 @@
 # View Sprint Details Template
-
+{% extends "base.html" %}
 {% load static %}
 
-{% extends "base.html" %}
 {% block content %}
   <h2>{{ sprint.title }}</h2>
   <p><strong>Start:</strong> {{ sprint.start_date }}</p>

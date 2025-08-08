@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sprint, Epic, Story, Task, AcceptanceCriteria
+from .models import Sprint, Story, Task, AcceptanceCriteria
 
 # Register your models here.
 
@@ -9,12 +9,6 @@ class SprintAdmin(admin.ModelAdmin):
     search_fields = ("title",)
     ordering = ("start_date",)
 
-
-@admin.register(Epic)
-class EpicAdmin(admin.ModelAdmin):
-    list_display = ("title", "sprint")
-    search_fields = ("title",)
-    ordering = ("sprint",)
 
 @admin.register(AcceptanceCriteria)
 class CriteriaAdmin(admin.ModelAdmin):
