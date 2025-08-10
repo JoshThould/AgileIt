@@ -194,8 +194,8 @@ footer h2 {
     color: darkred; /* Change color on hover */
 }
 
-/* Sprint List Styles */
-/* Sprint List Page Specific */
+
+/* Sprint List Page Styles */
 .sprint-list-page .btn {
     display: inline-block;
     padding: 8px 16px;
@@ -221,6 +221,29 @@ footer h2 {
     background-color: #27ae60;
 }
 
+/* Sprint row hover effect */
+.sprint-list-page .sprint-row:hover {
+    background-color: #f8f9fa;
+}
+
+/* Story row hover effect */
+.story-list-page .story-row:hover {
+    background-color: #f8f9fa;
+}
+
+/* delete pages styles */
+.story-delete-page .alert {
+    margin-top: 1rem;
+}
+
+/* Story form layout */
+.story-form-page h2 {
+    margin-bottom: 1rem;
+}
+
+.story-form-page .btn {
+    margin-right: 8px;
+}
 
 /* Responsive styles */
 
