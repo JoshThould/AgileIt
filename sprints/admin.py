@@ -5,7 +5,7 @@ from .models import Sprint, Story
 
 @admin.register(Sprint)
 class SprintAdmin(admin.ModelAdmin):
-    list_display = ("title", "start_date", "end_date")
+    list_display = ("title", "owner", "start_date", "end_date")
     search_fields = ("title",)
     ordering = ("start_date",)
 
