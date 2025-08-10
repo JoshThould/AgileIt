@@ -1,19 +1,23 @@
 {% extends 'sprints/base.html' %}
 {% load static %}
+{% load kanban_tags %}
 
 {% block content %}
 <div class="container-fluid mt-4">
   <h2 class="text-danger mb-4">Sprint Kanban Board</h2>
+  <h4 class="text-muted">Sprint: {{ sprint.name }}</h4>
+
+  <a href="{% url 'sprints:story-create' %}?sprint={{ sprint.pk }}" class="btn btn-danger mb-3">+ Add Story</a>
 
   <div class="row">
-    {% for status in ['To Do', 'In Progress', 'Done'] %}
+    {% for status in statuses %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card border-danger shadow-sm h-100">
         <div class="card-header bg-danger text-white text-center">
           {{ status }}
         </div>
         <div class="card-body p-2" style="min-height: 300px;">
-          {% for story in stories_by_status[status] %}
+          {% for story in stories_by_status|dict_get:status %}
           <div class="card mb-2 border-start border-danger">
             <div class="card-body p-2">
               <h6 class="card-title mb-1">{{ story.title }}</h6>
