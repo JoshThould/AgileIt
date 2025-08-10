@@ -6,6 +6,7 @@
   <p><strong>Description:</strong> {{ story.description }}</p>
   <p><strong>Epic:</strong> {{ story.epic.title }}</p>
   <p><strong>Status:</strong> {{ story.status }}</p>
+
   <a href="{% url 'sprints:story-edit' story.pk %}" class="btn btn-warning">Edit</a>
   <a href="{% url 'sprints:story-delete' story.pk %}" class="btn btn-danger">Delete</a>
   <a href="{% url 'sprints:story-list' %}" class="btn btn-secondary">Back to List</a>
