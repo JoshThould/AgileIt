@@ -33,11 +33,13 @@ class SprintKanbanView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         sprint = get_object_or_404(Sprint, pk=self.kwargs['pk'])
         context['sprint'] = sprint
-        context['statuses'] = ['To Do', 'In Progress', 'Done']
-        context['stories_by_status'] = {
-            status: sprint.story_set.filter(status=status, owner=self.request.user)
-            for status in context['statuses']
-        }
+        context['columns'] = [
+            {
+                'status': status,
+                'stories': sprint.stories.filter(status=status, owner=self.request.user)
+            }
+            for status in ['To Do', 'In Progress', 'Done']
+        ]
         return context
 
     def test_func(self):
