@@ -11,9 +11,10 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Sprint, Story
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 
-# Dashboard view with Kanban functionality
+# Dashboard view
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'sprints/dashboard.html'
 
@@ -30,17 +31,17 @@ class SprintKanbanView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        sprint = Sprint.objects.get(pk=self.kwargs['pk'])
+        sprint = get_object_or_404(Sprint, pk=self.kwargs['pk'])
         context['sprint'] = sprint
+        context['statuses'] = ['To Do', 'In Progress', 'Done']
         context['stories_by_status'] = {
-            'To Do': sprint.story_set.filter(status='To Do', owner=self.request.user),
-            'In Progress': sprint.story_set.filter(status='In Progress', owner=self.request.user),
-            'Done': sprint.story_set.filter(status='Done', owner=self.request.user),
+            status: sprint.story_set.filter(status=status, owner=self.request.user)
+            for status in context['statuses']
         }
         return context
 
     def test_func(self):
-        sprint = Sprint.objects.get(pk=self.kwargs['pk'])
+        sprint = get_object_or_404(Sprint, pk=self.kwargs['pk'])
         return sprint.owner == self.request.user
 
 # Sprints Views
@@ -51,7 +52,7 @@ class SprintListView(LoginRequiredMixin, ListView):
     context_object_name = 'sprints'
 
     def get_queryset(self):
-        return Sprint.objects.filter(user=self.request.user)
+        return Sprint.objects.filter(owner=self.request.user)
 
 class SprintCreateView(LoginRequiredMixin, CreateView):
     model = Sprint
@@ -59,7 +60,7 @@ class SprintCreateView(LoginRequiredMixin, CreateView):
     template_name = 'sprints/sprint_form.html'
 
     def form_valid(self, form):
-        form.instance.user = self.request.user  # set the user before saving
+        form.instance.owner = self.request.user  # set the owner before saving
         return super().form_valid(form)
 
 
@@ -129,10 +130,21 @@ class StoryCreateView(LoginRequiredMixin, CreateView):
     template_name = 'sprints/story_form.html'
     success_url = reverse_lazy('sprints:story-list')
 
+    def get_initial(self):
+        sprint_id = self.request.GET.get('sprint')
+        if sprint_id:
+            try:
+                return {'sprint': Sprint.objects.get(pk=sprint_id)}
+            except Sprint.DoesNotExist:
+                pass
+        return super().get_initial()
+
     def form_valid(self, form):
         form.instance.owner = self.request.user
         messages.success(self.request, "Story created successfully.")
         return super().form_valid(form)
+
+
 
 class StoryDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Story
