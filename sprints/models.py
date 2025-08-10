@@ -13,7 +13,7 @@ STATUS_CHOICES = [
 class Sprint(models.Model):
     """A time-boxed period for completing a set of stories."""
     title = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
 
