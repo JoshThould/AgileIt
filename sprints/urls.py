@@ -12,6 +12,7 @@ from .views import (
     StoryDetailView,
     StoryUpdateView,
     StoryDeleteView,
+    update_status,
 )
 
 app_name = "sprints"
@@ -32,4 +33,5 @@ urlpatterns = [
     path('stories/<int:pk>/', StoryDetailView.as_view(), name='story-detail'),
     path('stories/<int:pk>/edit/', StoryUpdateView.as_view(), name='story-edit'),
     path('stories/<int:pk>/delete/', StoryDeleteView.as_view(), name='story-delete'),
+    path('update-status/<int:story_id>/', update_status, name='update-status'), # Drag and drop functionality
 ]
