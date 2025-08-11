@@ -185,8 +185,15 @@ body {
 }
 
 /* Kanban Board Styles */
+.kanban-wrapper {
+  margin-top: 1rem;
+}
+
+
 .kanban-scroll {
   overflow-x: auto;
+  margin-top: 1rem;
+  padding-top: 1rem;
   padding-bottom: 1rem;
 }
 .kanban-scroll::-webkit-scrollbar {
@@ -201,10 +208,13 @@ body {
 .story-card {
   background-color: #1e1e1e;
   color: red;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease-in-out;
 }
 .story-card:hover {
   background-color: #2a2a2a; /* Slight darkening on hover */
+  transform: scale(1.02);
+}
+
 }
 .story-card .card-body {
   background-color: inherit;
@@ -340,16 +350,33 @@ footer h2 {
 
 /* Kanban Board Styles */
 
-.kanban-scroll {
-  overflow-x: auto;
-  padding-bottom: 1rem;
+.kanban-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
+
+.kanban-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  overflow-x: visible;
+  max-width: 1200px; /* Optional: limits board width on large screens */
+}
+
 .kanban-scroll::-webkit-scrollbar {
   height: 8px;
 }
+
 .kanban-scroll::-webkit-scrollbar-thumb {
   background-color: #dc3545;
   border-radius: 4px;
+}
+
+.kanban-column {
+  min-width: 300px;
+  flex: 0 0 auto;
 }
 
 /* Override Bootstrap card styles - make selectors more specific */
@@ -427,18 +454,19 @@ footer h2 {
 
 /* Responsive styles */
 
-@media (max-width: 600px) {
-  .social-links {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  footer h2 {
-    font-size: 0.85rem;
-  }
-}
-
 @media (max-width: 768px) {
+  .kanban-scroll {
+    flex-direction: column;
+    align-items: center; /* Optional: center stacked columns */
+    overflow-x: visible;
+  }
+
+  .kanban-column {
+    width: 100%;
+    min-width: unset;
+    flex: 1 1 auto;
+  }
+
   .sidebar {
     display: none;
   }
@@ -451,5 +479,16 @@ footer h2 {
   .nav-links {
     flex-direction: column;
     gap: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .social-links {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer h2 {
+    font-size: 0.85rem;
   }
 }
