@@ -210,6 +210,14 @@ body {
   background-color: inherit;
 }
 
+.story-card {
+  cursor: grab;
+}
+.story-card:active {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+
 /* Story Card Text Limits - 200 words max */
 .story-card .card-title {
     white-space: nowrap;
