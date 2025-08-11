@@ -1,13 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}AgileIt | Plan smarter, sprint faster{% endblock %}</title>
-    {% load static %}
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/sprints/styles.css' %}">
     <script src="https://kit.fontawesome.com/70d9507ffc.js" crossorigin="anonymous"></script>
+
     {% block extra_head %}{% endblock %}
 </head>
 
@@ -59,37 +61,55 @@
     </div>
   </nav>
 </header>
+
 <main class="flex-grow-1 container py-4">
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </main>
 
-    <footer id="contact" class="mt-auto bg-dark text-white text-center py-3">
-        <div class="container section">
-            <div class="row justify-content-center">
-                <div class="col-12 text-center">
-                     <small>&copy; 2025 AgileIt. All rights reserved.</small>
-
-                </div>
-                <div class="social-links my-4 d-flex justify-content-center">
-                    <a href="https://www.instagram.com" target="_blank"
-                        aria-label="Visit our Instagram page (opens in a new tab)" rel="noopener"><i
-                            class="fa-brands fa-instagram fa-2x"></i></a>
-                    <a href="https://www.facebook.com" target="_blank"
-                        aria-label="Visit our Facebook page (opens in a new tab)" rel="noopener"><i
-                            class="fa-brands fa-square-facebook fa-2x"></i></a>
-                    <a href="https://www.x.com" target="_blank" aria-label="Visit our X feed (opens in a new tab)"
-                        rel="noopener"><i class="fa-brands fa-x-twitter fa-2x"></i></a>
-                    <a href="https://linkedin.com/in/josh-thould/" target="_blank"
-                        aria-label="Visit Josh's LinkedIn (opens in a new tab)" 
-                        rel="noopener"><i class="fa-brands fa-linkedin fa-2x"></i></a>
-                </div>
+<footer id="contact" class="mt-auto bg-dark text-white text-center py-3">
+    <div class="container section">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <small>&copy; 2025 AgileIt. All rights reserved.</small>
+            </div>
+            <div class="social-links my-4 d-flex justify-content-center">
+                <a href="https://www.instagram.com" target="_blank" aria-label="Visit our Instagram page (opens in a new tab)" rel="noopener">
+                    <i class="fa-brands fa-instagram fa-2x"></i>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" aria-label="Visit our Facebook page (opens in a new tab)" rel="noopener">
+                    <i class="fa-brands fa-square-facebook fa-2x"></i>
+                </a>
+                <a href="https://www.x.com" target="_blank" aria-label="Visit our X feed (opens in a new tab)" rel="noopener">
+                    <i class="fa-brands fa-x-twitter fa-2x"></i>
+                </a>
+                <a href="https://linkedin.com/in/josh-thould/" target="_blank" aria-label="Visit Josh's LinkedIn (opens in a new tab)" rel="noopener">
+                    <i class="fa-brands fa-linkedin fa-2x"></i>
+                </a>
             </div>
         </div>
-    </footer>
-    {% block scripts %}{% endblock %}
-    {% load static %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    </div>
+</footer>
 
+<!-- Future Feature Modal -->
+<div class="modal fade" id="futureFeatureModal" tabindex="-1" aria-labelledby="futureFeatureLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="futureFeatureLabel">Coming Soon 🚧</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This feature isn’t available yet — but it’s on the roadmap!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block scripts %}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
