@@ -1,0 +1,137 @@
+[1mdiff --git a/AgileIt_project/__pycache__/settings.cpython-313.pyc b/AgileIt_project/__pycache__/settings.cpython-313.pyc[m
+[1mindex c53e453..afec856 100644[m
+Binary files a/AgileIt_project/__pycache__/settings.cpython-313.pyc and b/AgileIt_project/__pycache__/settings.cpython-313.pyc differ
+[1mdiff --git a/AgileIt_project/__pycache__/urls.cpython-313.pyc b/AgileIt_project/__pycache__/urls.cpython-313.pyc[m
+[1mindex 7ea60d1..a6f8506 100644[m
+Binary files a/AgileIt_project/__pycache__/urls.cpython-313.pyc and b/AgileIt_project/__pycache__/urls.cpython-313.pyc differ
+[1mdiff --git a/AgileIt_project/settings.py b/AgileIt_project/settings.py[m
+[1mindex 03dcd50..5393553 100644[m
+[1m--- a/AgileIt_project/settings.py[m
+[1m+++ b/AgileIt_project/settings.py[m
+[36m@@ -114,11 +114,17 @@[m [mAUTH_PASSWORD_VALIDATORS = [[m
+ [m
+ # AllAuth settings[m
+ [m
+[31m-LOGIN_REDIRECT_URL = '/homepage/'  # Redirects users after successful login[m
+[31m-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'  # Redirects users after logout[m
+[31m-ACCOUNT_LOGIN_METHODS = {'username', 'email'}[m
+[32m+[m[32mLOGIN_REDIRECT_URL = '/dashboard/'[m
+[32m+[m[32mACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'[m
+[32m+[m
+[32m+[m[32mACCOUNT_LOGIN_METHODS = {'email', 'username'}[m[41m  [m
+ ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*'][m
+[31m-ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Allows login without email confirmation[m
+[32m+[m[32mACCOUNT_EMAIL_VERIFICATION = 'optional'[m
+[32m+[m
+[32m+[m[32mAUTHENTICATION_BACKENDS = [[m
+[32m+[m[32m    'django.contrib.auth.backends.ModelBackend',  # Default[m
+[32m+[m[32m    'allauth.account.auth_backends.AuthenticationBackend',  # Enables email login[m
+[32m+[m[32m][m
+ [m
+ [m
+ # Internationalization[m
+[1mdiff --git a/AgileIt_project/urls.py b/AgileIt_project/urls.py[m
+[1mindex 9ceb676..5614a41 100644[m
+[1m--- a/AgileIt_project/urls.py[m
+[1m+++ b/AgileIt_project/urls.py[m
+[36m@@ -17,7 +17,7 @@[m [mIncluding another URLconf[m
+ [m
+ from django.contrib import admin[m
+ from django.urls import path, include, reverse_lazy[m
+[31m-from django.views.generic import RedirectView[m
+[32m+[m[32mfrom django.views.generic import RedirectView, TemplateView[m
+ [m
+ urlpatterns = [[m
+     path('', RedirectView.as_view(url=reverse_lazy('sprints:dashboard'), permanent=False)),[m
+[1mdiff --git a/sprints/__pycache__/admin.cpython-313.pyc b/sprints/__pycache__/admin.cpython-313.pyc[m
+[1mindex 3b488d8..73b7f0e 100644[m
+Binary files a/sprints/__pycache__/admin.cpython-313.pyc and b/sprints/__pycache__/admin.cpython-313.pyc differ
+[1mdiff --git a/sprints/__pycache__/models.cpython-313.pyc b/sprints/__pycache__/models.cpython-313.pyc[m
+[1mindex 360432e..8662022 100644[m
+Binary files a/sprints/__pycache__/models.cpython-313.pyc and b/sprints/__pycache__/models.cpython-313.pyc differ
+[1mdiff --git a/sprints/__pycache__/urls.cpython-313.pyc b/sprints/__pycache__/urls.cpython-313.pyc[m
+[1mindex f119d8c..95c9c62 100644[m
+Binary files a/sprints/__pycache__/urls.cpython-313.pyc and b/sprints/__pycache__/urls.cpython-313.pyc differ
+[1mdiff --git a/sprints/__pycache__/views.cpython-313.pyc b/sprints/__pycache__/views.cpython-313.pyc[m
+[1mindex c00e8b6..13cb2b9 100644[m
+Binary files a/sprints/__pycache__/views.cpython-313.pyc and b/sprints/__pycache__/views.cpython-313.pyc differ
+[1mdiff --git a/sprints/templates/sprints/dashboard.html b/sprints/templates/sprints/dashboard.html[m
+[1mindex 7cdd90d..129d94d 100644[m
+[1m--- a/sprints/templates/sprints/dashboard.html[m
+[1m+++ b/sprints/templates/sprints/dashboard.html[m
+[36m@@ -26,7 +26,7 @@[m
+           <i class="fas fa-flag-checkered card-icon mb-2"></i>[m
+           <h3>Sprints</h3>[m
+           <p>Manage active sprints</p>[m
+[31m-          <a href="{% url 'sprints:sprint-list' %}" class="btn btn-primary">View Sprints</a>[m
+[32m+[m[32m          <a href="{% url 'sprints:sprint-list' %}" class="btn btn-primary" aria-label="View all sprints">View Sprints</a>[m
+         </div>[m
+       </div>[m
+ [m
+[36m@@ -36,7 +36,7 @@[m
+           <i class="fas fa-stream card-icon mb-2"></i>[m
+           <h3>Stories Backlog</h3>[m
+           <p>View your backlog of Stories</p>[m
+[31m-          <a href="{% url 'sprints:story-list' %}" class="btn btn-primary">View Backlog</a>[m
+[32m+[m[32m          <a href="{% url 'sprints:story-list' %}" class="btn btn-primary" aria-label="View story backlog">View Backlog</a>[m
+         </div>[m
+       </div>[m
+ [m
+[36m@@ -46,7 +46,7 @@[m
+           <i class="fas fa-chart-bar card-icon mb-2"></i>[m
+           <h3>Reports</h3>[m
+           <p>Track progress, velocity, and completion metrics.</p>[m
+[31m-          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#futureFeatureModal">[m
+[32m+[m[32m          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#futureFeatureModal" aria-label="View reports (coming soon)">[m
+             View Reports[m
+           </button>[m
+         </div>[m
+[36m@@ -58,7 +58,7 @@[m
+           <i class="fas fa-users card-icon mb-2"></i>[m
+           <h3>Team</h3>[m
+           <p>Assign work and manage team profiles.</p>[m
+[31m-          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#futureFeatureModal">[m
+[32m+[m[32m          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#futureFeatureModal" aria-label="Manage team (coming soon)">[m
+             Manage Team[m
+           </button>[m
+         </div>[m
+[1mdiff --git a/sprints/templates/sprints/sprint_confirm_delete.html b/sprints/templates/sprints/sprint_confirm_delete.html[m
+[1mindex 7b51052..3d3de78 100644[m
+[1m--- a/sprints/templates/sprints/sprint_confirm_delete.html[m
+[1m+++ b/sprints/templates/sprints/sprint_confirm_delete.html[m
+[36m@@ -10,7 +10,7 @@[m
+ [m
+   <form method="post">[m
+     {% csrf_token %}[m
+[31m-    <button type="submit" class="btn btn-danger">Yes, delete</button>[m
+[31m-    <a href="{% url 'sprints:sprint-detail' sprint.pk %}" class="btn btn-secondary">Cancel</a>[m
+[32m+[m[32m    <button type="submit" class="btn btn-danger" aria-label="Confirm deletion of {{ sprint.title }}">Yes, delete</button>[m
+[32m+[m[32m    <a href="{% url 'sprints:sprint-detail' sprint.pk %}" class="btn btn-secondary" aria-label="Cancel deletion and return to sprint details">Cancel</a>[m
+   </form>[m
+ {% endblock %}[m
+\ No newline at end of file[m
+[1mdiff --git a/sprints/templates/sprints/sprint_detail.html b/sprints/templates/sprints/sprint_detail.html[m
+[1mindex 521e0da..955ae3a 100644[m
+[1m--- a/sprints/templates/sprints/sprint_detail.html[m
+[1m+++ b/sprints/templates/sprints/sprint_detail.html[m
+[36m@@ -6,7 +6,7 @@[m
+   <p><strong>Start:</strong> {{ sprint.start_date }}</p>[m
+   <p><strong>End:</strong> {{ sprint.end_date }}</p>[m
+ [m
+[31m-  <a href="{% url 'sprints:sprint-edit' sprint.pk %}" class="btn btn-warning">Edit</a>[m
+[31m-  <a href="{% url 'sprints:sprint-delete' sprint.pk %}" class="btn btn-danger">Delete</a>[m
+[31m-  <a href="{% url 'sprints:sprint-list' %}" class="btn btn-secondary">Back to List</a>[m
+[32m+[m[32m  <a href="{% url 'sprints:sprint-edit' sprint.pk %}" class="btn btn-warning" aria-label="Edit {{ sprint.title }}">Edit</a>[m
+[32m+[m[32m  <a href="{% url 'sprints:sprint-delete' sprint.pk %}" class="btn btn-danger" aria-label="Delete {{ sprint.title }}">Delete</a>[m
+[32m+[m[32m  <a href="{% url 'sprints:sprint-list' %}" class="btn btn-secondary" aria-label="Return to sprint list">Back to List</a>[m
+ {% endblock %}[m
+\ No newline at end of file[m
+[1mdiff --git a/sprints/templates/sprints/sprint_form.html b/sprints/templates/sprints/sprint_form.html[m
+[1mindex 0f5d3bb..7c893d9 100644[m
+[1m--- a/sprints/templates/sprints/sprint_form.html[m
+[1m+++ b/sprints/templates/sprints/sprint_form.html[m
+[36m@@ -7,8 +7,8 @@[m
+     {{ form.as_p }}[m
+ [m
+     <div class="mt-3">[m
+[31m-      <bu
