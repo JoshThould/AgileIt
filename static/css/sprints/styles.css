@@ -30,7 +30,7 @@ header .container {
 
 .branding i {
   font-size: 1.5rem;
-  color: #e63946; /* Red accent */
+  color: #e63946;
 }
 
 .branding h1 {
@@ -300,14 +300,14 @@ footer h2 {
 
 .social-links a {
     margin: 0 10px;
-    font-size: 24px; /* Adjust icon size */
+    font-size: 24px; 
     color: red;
     transition: color 0.3s ease;
 
 }
 
 .social-links a:hover {
-    color: darkred; /* Change color on hover */
+    color: darkred; 
 }
 
 
@@ -337,14 +337,14 @@ footer h2 {
     background-color: darkred;
 }
 
-/* Sprint row hover effect - Updated for dark theme */
+/* Sprint row hover effect */
 .sprint-list-page .sprint-row:hover {
-    background-color: #2a2a2a; /* Dark hover instead of light */
+    background-color: #2a2a2a; /* 
 }
 
 /* Story row hover effect - Updated for dark theme */
 .story-list-page .story-row:hover {
-    background-color: #2a2a2a; /* Dark hover instead of light */
+    background-color: #2a2a2a; /
 }
 
 /* delete pages styles */
@@ -375,7 +375,7 @@ footer h2 {
   gap: 1rem;
   padding-bottom: 1rem;
   overflow-x: visible;
-  max-width: 1200px; /* Optional: limits board width on large screens */
+  max-width: 1200px; 
 }
 
 .kanban-scroll::-webkit-scrollbar {
@@ -516,7 +516,7 @@ footer h2 {
 @media (max-width: 768px) {
   .kanban-scroll {
     flex-direction: column;
-    align-items: center; /* Optional: center stacked columns */
+    align-items: center;
     overflow-x: visible;
   }
 
@@ -549,5 +549,40 @@ footer h2 {
 
   footer h2 {
     font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .kanban-scroll {
+    flex-direction: row;
+    justify-content: space-between;
+    overflow-x: auto;
+    gap: 1rem;
+  }
+
+  .kanban-column {
+    width: 22%;
+    min-width: 250px;
+    flex: 0 0 auto;
+  }
+
+  .sidebar {
+    display: block;
+    width: 250px;
+  }
+
+  .main-content {
+    margin-left: 260px;
+    padding: 2rem;
+  }
+
+  .nav-links {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  }
+
+  footer h2 {
+    font-size: 1rem;
   }
 }
