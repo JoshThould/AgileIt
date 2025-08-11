@@ -151,6 +151,19 @@ body {
 }
 
 /* Buttons */
+
+.btn-primary {
+  background-color: red !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background-color: darkred !important;
+  color: white !important;
+}
+
+
 .btn {
     display: inline-block !important;
     margin-top: 1rem;
@@ -451,6 +464,52 @@ footer h2 {
     word-wrap: break-word;
     hyphens: auto;
 }
+/* Login Page Fixes */
+.login-page form {
+  background-color: #1e1e1e;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.login-page label {
+  color: #e0e0e0;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.login-page input {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.login-page button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Login Page Styles */
+
+.login-page input[type="checkbox"] {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+.login-page label[for="id_remember"] {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
 
 /* Responsive styles */
 
