@@ -9,9 +9,14 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Sprint, Story
+from .models import Sprint, Story, STATUS_CHOICES
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+# Drag and drop functionality
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
+
 
 
 # Dashboard view
@@ -32,19 +37,23 @@ class SprintKanbanView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sprint = get_object_or_404(Sprint, pk=self.kwargs['pk'])
+
+        status_list = [status for status, _ in STATUS_CHOICES]  # ✅ Extract status keys
+
         context['sprint'] = sprint
         context['columns'] = [
             {
                 'status': status,
                 'stories': sprint.stories.filter(status=status, owner=self.request.user)
             }
-            for status in ['To Do', 'In Progress', 'Done']
+            for status in status_list
         ]
         return context
 
     def test_func(self):
         sprint = get_object_or_404(Sprint, pk=self.kwargs['pk'])
         return sprint.owner == self.request.user
+
 
 # Sprints Views
 
@@ -166,7 +175,9 @@ class StoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Story
     fields = ['title', 'description', 'status', 'sprint']
     template_name = 'sprints/story_form.html'
-    success_url = reverse_lazy('sprints:story-list')
+    
+    def get_success_url(self):
+        return reverse_lazy('sprints:sprint-kanban', kwargs={'pk': self.object.sprint.pk})
 
     def test_func(self):
         story = self.get_object()
@@ -184,7 +195,9 @@ class StoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class StoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):             
     model = Story
     template_name = 'sprints/story_confirm_delete.html'
-    success_url = reverse_lazy('sprints:story-list')
+
+    def get_success_url(self):
+        return reverse_lazy('sprints:sprint-kanban', kwargs={'pk': self.object.sprint.pk})
 
     def test_func(self):
         story = self.get_object()
@@ -197,4 +210,16 @@ class StoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         messages.error(self.request, "You don't have permission to view this sprint.")
         return redirect('sprints:sprint-list')
+
+# Drag and drop functionality
+
+@csrf_exempt
+def update_status(request, story_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_status = data.get('status')
+        story = Story.objects.get(pk=story_id)
+        story.status = new_status
+        story.save()
+        return JsonResponse({'success': True})
 
